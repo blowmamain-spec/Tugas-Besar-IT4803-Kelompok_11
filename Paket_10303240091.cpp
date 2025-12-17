@@ -1,48 +1,65 @@
-#include "paket.h"
+#include "kurir.h"
 
-void createListPaket(List_paket &L){ L.first = nullptr; L.last = nullptr; }
-bool isEmpty_paket(List_paket L){ return L.first == nullptr; }
+void createListKurir(List_kurir &L){
+     L.first = nullptr;
+}
 
-addr_paket createElementPaket(int ID, string Alamat, string Ukuran){
-    addr_paket P = new paket;
-    P->info.ID_paket = ID;
-    P->info.alamat = Alamat;
-    P->info.ukuran = Ukuran;
-    P->next = nullptr; P->prev = nullptr;
+bool isEmpty_kurir(List_kurir L){
+    return L.first == nullptr;
+}
+
+addr_kurir createElementKurir(int ID, string Kendaraan, int Jml){
+    addr_kurir P = new kurir;
+    P->info.ID_kurir = ID;
+    P->info.kendaraan = Kendaraan;
+    P->info.jmlpkt = Jml;
+    P->next = nullptr;
     return P;
 }
 
-addr_paket findElementPaket(List_paket L, int ID){
-    addr_paket P = L.first;
-    while(P != nullptr && P->info.ID_paket != ID){ P = P->next; }
+addr_kurir findElementKurir(List_kurir L, int ID){
+    addr_kurir P = L.first;
+    while(P != nullptr && P->info.ID_kurir != ID){
+        P = P->next;
+    }
     return P;
 }
 
-void insertLastPaket(List_paket &L, addr_paket P){
-    if(isEmpty_paket(L)){ L.first = P; L.last = P; }
-    else { P->prev = L.last; L.last->next = P; L.last = P; }
-}
-
-void insertAfterPaket(List_paket &L, addr_paket Prec, addr_paket P){
-    if(Prec != nullptr){
-        P->next = Prec->next; P->prev = Prec;
-        if(Prec->next != nullptr){ Prec->next->prev = P; }
-        else { L.last = P; }
-        Prec->next = P;
+void insertLastKurir(List_kurir &L, addr_kurir P){
+    if(isEmpty_kurir(L)){
+        L.first = P;
+    }else {
+        addr_kurir Q = L.first;
+        while(Q->next != nullptr){
+            Q = Q->next;}
+        Q->next = P;
     }
 }
 
-void deleteLastPaket(List_paket &L, addr_paket &P){
-    if(isEmpty_paket(L)){ P = nullptr; }
-    else if(L.first == L.last){ P = L.first; L.first = nullptr; L.last = nullptr; }
-    else { P = L.last; L.last = L.last->prev; L.last->next = nullptr; P->prev = nullptr; }
+void insertAfterKurir(List_kurir &L, addr_kurir Prec, addr_kurir P){
+    if(Prec != nullptr){
+        P->next = Prec->next; Prec->next = P;
+    }
 }
 
-void deleteAfterPaket(List_paket &L, addr_paket Prec, addr_paket &P){
+void deleteLastKurir(List_kurir &L, addr_kurir &P){
+    if(isEmpty_kurir(L)){
+        P = nullptr;
+    }else if(L.first->next == nullptr){
+        P = L.first; L.first = nullptr;
+    }else {
+        addr_kurir Q = L.first;
+        while(Q->next->next != nullptr){
+            Q = Q->next;
+        }
+        P = Q->next; Q->next = nullptr;
+    }
+}
+
+void deleteAfterKurir(List_kurir &L, addr_kurir Prec, addr_kurir &P){
     if(Prec != nullptr && Prec->next != nullptr){
-        P = Prec->next; Prec->next = P->next;
-        if(P->next != nullptr){ P->next->prev = Prec; }
-        else { L.last = Prec; }
-        P->next = nullptr; P->prev = nullptr;
-    } else { P = nullptr; }
+        P = Prec->next; Prec->next = P->next; P->next = nullptr;
+    }else {
+        P = nullptr;
+    }
 }
