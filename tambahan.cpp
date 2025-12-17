@@ -2,7 +2,6 @@
 #include <iostream>
 using namespace std;
 
-// Cek apakah paket sudah diambil (1 Paket = 1 Kurir)
 bool isPaketAssigned(List_relasi LR, addr_paket P) {
     addr_relasi R = LR.first;
     while(R != nullptr) {
@@ -12,7 +11,6 @@ bool isPaketAssigned(List_relasi LR, addr_paket P) {
     return false;
 }
 
-// --- LOGIC AUTO DISTRIBUSI ---
 void autoInputRelasi(List_relasi &LR, List_kurir &LK, List_paket LP) {
     addr_paket P = LP.first;
 
@@ -25,8 +23,7 @@ void autoInputRelasi(List_relasi &LR, List_kurir &LK, List_paket LP) {
     while (P != nullptr) {
         if (!isPaketAssigned(LR, P)) {
             addr_kurir assignedK = nullptr;
-
-            // 1. Paket BESAR -> MOBIL
+            
             if (P->info.ukuran == "Besar") {
                 addr_kurir start = turnMobil;
                 if(start != nullptr) {
@@ -42,7 +39,7 @@ void autoInputRelasi(List_relasi &LR, List_kurir &LK, List_paket LP) {
                     } while (turnMobil != start);
                 }
             }
-            // 2. Paket KECIL -> MOTOR
+
             else if (P->info.ukuran == "Kecil") {
                 addr_kurir start = turnMotor;
                 if(start != nullptr) {
@@ -72,15 +69,12 @@ void autoInputRelasi(List_relasi &LR, List_kurir &LK, List_paket LP) {
     cout << "Selesai. " << count << " paket didistribusikan." << endl;
 }
 
-// --- TAMPILAN FORMAT LIST (SESUAI REQUEST) ---
-
 void showAllParentWithChild(List_relasi LR, List_kurir LK){
     addr_kurir K = LK.first;
     cout << "\n=== DATA MUATAN KURIR ===" << endl;
     while(K != nullptr){
         cout << "Kurir " << K->info.ID_kurir << " (" << K->info.kendaraan << "):" << endl;
 
-        // Loop Relasi untuk Kurir ini
         addr_relasi R = LR.first;
         bool ada = false;
         while(R != nullptr){
@@ -93,7 +87,7 @@ void showAllParentWithChild(List_relasi LR, List_kurir LK){
         }
 
         if(!ada) cout << "  (Tidak ada muatan)" << endl;
-        cout << endl; // Spasi antar kurir
+        cout << endl; 
         K = K->next;
     }
 }
@@ -160,13 +154,13 @@ void editRelasi(List_relasi &LR, List_kurir LK, List_paket LP, int IDKurir, int 
     addr_paket PBaru = findElementPaket(LP, IDPaketBaru);
 
     if(K && PBaru){
-        // Validasi Kendaraan vs Paket
+    
         if ( (K->info.kendaraan == "Mobil" && PBaru->info.ukuran != "Besar") ||
              (K->info.kendaraan == "Motor" && PBaru->info.ukuran != "Kecil") ) {
              cout << "Gagal: Jenis Kendaraan & Ukuran Paket Tidak Cocok!" << endl;
              return;
         }
-        // Validasi Ketersediaan
+        
         if (isPaketAssigned(LR, PBaru)) {
              cout << "Gagal: Paket Baru sudah diambil kurir lain." << endl;
              return;
