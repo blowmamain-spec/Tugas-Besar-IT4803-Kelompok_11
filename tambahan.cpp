@@ -2,7 +2,7 @@
 #include "kurir.h"
 #include "paket.h"
 
-void daftarpaketkurir(List_relasi &L, int IDKurir){
+void daftarpaketkurir(List_relasi &L, int IDKurir){//show data child dari parent tertentu
     addr_kurir K;
     addr_relasi R;
     R = L.first;
@@ -18,7 +18,7 @@ void daftarpaketkurir(List_relasi &L, int IDKurir){
     }
 }
 
-void daftarkurirpaket(List_relasi &L, int IDPaket){
+void daftarkurirpaket(List_relasi &L, int IDPaket){//show data parent dari child tertentu
     addr_paket P;
     addr_relasi R;
     R = L.first;
@@ -34,7 +34,7 @@ void daftarkurirpaket(List_relasi &L, int IDPaket){
     }
 }
 
-void daftarpaketdankurir(List_relasi &L){
+void daftarpaketdankurir(List_relasi &L){//show data child dan parent yang masing-masing child miliki
     addr_relasi R;
     R = L.first;
     while (R != nullptr || R->paket != nullptr){
@@ -50,7 +50,7 @@ void daftarpaketdankurir(List_relasi &L){
     }
 }
 
-void daftarkurirdanpaket(List_relasi &L){
+void daftarkurirdanpaket(List_relasi &L){//show setiap data parent beserta child yang beralasi dengannya
     addr_relasi R,Q;
     R = L.first;
     while (R != nullptr){
@@ -69,7 +69,7 @@ void daftarkurirdanpaket(List_relasi &L){
     }
 }
 
-void showKurirByPaket(List_relasi L, int ID_Paket) {
+void showKurirByPaket(List_relasi L, int ID_Paket) {//Show data parent yang berelasi dengan child tertentu
     // Set pointer penelusur ke elemen pertama list relasi
     addr_relasi P = L.first;
     bool ditemukan = false;
